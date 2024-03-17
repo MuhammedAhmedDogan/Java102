@@ -2,6 +2,9 @@ import java.util.Scanner;
 
 public class Main {
     public static int index(int[] arr, int indexNo) {
+        if (indexNo < 0 || indexNo >= arr.length) {
+            throw new ArrayIndexOutOfBoundsException("Index is out of the array bounds.");
+        }
         return arr[indexNo];
     }
 
@@ -13,9 +16,9 @@ public class Main {
 
         try {
             int indexNo = input.nextInt();
-            System.out.println(index(arr,indexNo));
-        }catch (Exception e){
-            System.out.println(e.toString());
+            System.out.println(index(arr, indexNo));
+        } catch (Exception e) {
+            System.out.println(e);
         }
 
     }
