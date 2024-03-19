@@ -1,9 +1,9 @@
-public class Book implements Comparable {
+public class Book implements Comparable<Book> {
 
-    private String name;
-    private String author;
-    private int pages;
-    private int year;
+    private final String name;
+    private final String author;
+    private final int pages;
+    private final int year;
 
     public Book(String name, String author, int pages, int year) {
         this.name = name;
@@ -29,7 +29,7 @@ public class Book implements Comparable {
     }
 
     @Override
-    public int compareTo(Object o) {
+    public int compareTo(Book o) {
         return 0;
     }
 
