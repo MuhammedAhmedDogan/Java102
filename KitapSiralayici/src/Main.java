@@ -13,12 +13,12 @@ public class Main {
         TreeSet<Book> bookSortedPages = new TreeSet<>(new PagesComparator());
         bookSortedPages.addAll(booksSortedName);
 
-        System.out.println("Kitap ismine göre sıralama:");
+        System.out.println("\nKitap ismine göre sıralama:\n");
         for (Book book : booksSortedName){
             System.out.println(book.toString());
         }
-        System.out.println();
-        System.out.println("Sayfa sayısına göre sıralama:");
+        System.out.println("----------------------------------------------");
+        System.out.println("Sayfa sayısına göre sıralama:\n");
         for (Book book : bookSortedPages){
             System.out.println(book.toString());
         }
