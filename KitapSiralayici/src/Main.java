@@ -1,8 +1,9 @@
+import java.util.Comparator;
 import java.util.TreeSet;
 
 public class Main {
     public static void main(String[] args) {
-        TreeSet<Book> booksSortedName = new TreeSet<>(new NameComparator());
+        TreeSet<Book> booksSortedName = new TreeSet<>();
 
         booksSortedName.add(new Book("Dune", "Frank Herbert", 896, 1965));
         booksSortedName.add(new Book("Harry Potter and the Philosopher's Stone", "J. K. Rowling", 223, 1997));
@@ -10,7 +11,12 @@ public class Main {
         booksSortedName.add(new Book("Martin Eden", "Jack London", 393, 1909));
         booksSortedName.add(new Book("Foundation", "Isaac Asimov", 255, 1951));
 
-        TreeSet<Book> bookSortedPages = new TreeSet<>(new PagesComparator());
+        TreeSet<Book> bookSortedPages = new TreeSet<>(new Comparator<>() {
+            @Override
+            public int compare(Book o1, Book o2) {
+                return o1.getPages() - o2.getPages();
+            }
+        });
         bookSortedPages.addAll(booksSortedName);
 
         System.out.println("\nKitap ismine göre sıralama:\n");

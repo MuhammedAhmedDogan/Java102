@@ -30,7 +30,7 @@ public class Book implements Comparable<Book> {
 
     @Override
     public int compareTo(Book o) {
-        return 0;
+        return this.name.compareTo(o.getName());
     }
 
     @Override
