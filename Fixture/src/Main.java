@@ -17,7 +17,7 @@ public class Main {
         teams.add("Beşiktaş");
         teams.add("Başakşehir");
         teams.add("Trabzonspor");
-        //teams.add("Boluspor");    // Takım sayısı tek olma durumunu kontrol etmek için kodu aç.
+        teams.add("Boluspor");    // Takım sayısı tek olma durumunu kontrol etmek için kodu aç.
 
         // Takım sayısı tek sayı ise takımlara BAY eklendi.
         if (teams.size() % 2 != 0) {
