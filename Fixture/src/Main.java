@@ -17,7 +17,7 @@ public class Main {
         teams.add("Beşiktaş");
         teams.add("Başakşehir");
         teams.add("Trabzonspor");
-        //teams.add("Boluspor");    // Takım sayısı tek olma durumunu kontrol etmek için kodu aç.
+        teams.add("Boluspor");    // Takım sayısı tek olma durumunu kontrol etmek için kodu aç.
 
         // Takım sayısı tek sayı ise takımlara BAY eklendi.
         if (teams.size() % 2 != 0) {
@@ -58,14 +58,17 @@ public class Main {
                 // Random sınıfından random nesnesi oluşturuldu.
                 int r = random.nextInt(matchList.size());
 
+                // Random bir matchList eşleşmesi fixture listesine ve kontrol listesine eklendi. Eklenen eleman matchList'ten silindi.
                 fixture.add(matchList.get(r));
                 controlList.add(matchList.get(r));
                 matchList.remove(r);
 
+                // Round içerisinde aynı takımın tekrar maçı olmaması için kontrol eden döngüler.
                 for (int i = 0; i < ((numberOfTeams / 2) - 1); i++) {
                     boolean isTeamHasMatch = false;
                     r = random.nextInt(matchList.size());
 
+                    // controlList ile girilen random eşleşmeyi kontrol eden döngü.
                     for (List<String> control : controlList) {
                         if ((control.contains(matchList.get(r).getFirst()) || control.contains(matchList.get(r).getLast()))) {
                             isTeamHasMatch = true;
@@ -74,12 +77,13 @@ public class Main {
 
                     if (isTeamHasMatch) {
                         i--;
-                    } else {
+                    } else {    // Kontrolleri yapılan random bir matchList eşleşmesi fixture listesine ve kontrol listesine eklendi. Eklenen eleman matchList'ten silindi.
                         fixture.add(matchList.get(r));
                         controlList.add(matchList.get(r));
                         matchList.remove(r);
                     }
 
+                    // Döngü istenen sürenin dışına çıkarsa döngüleri kıran şart.
                     if (System.currentTimeMillis() - loopStartTime >= maxTime) {
                         matchList.clear();
                         fixture.clear();
@@ -90,6 +94,8 @@ public class Main {
 
             }
         }
+
+        // Print fixture
         int round = 1;
         System.out.println("----------------- ROUND " + round++ + " -----------------");
         for (int i = 0; i < fixture.size(); i++) {
