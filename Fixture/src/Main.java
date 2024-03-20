@@ -21,7 +21,7 @@ public class Main {
 
         // Takım sayısı tek sayı ise takımlara BAY eklendi.
         if (teams.size() % 2 != 0) {
-            teams.add("BAY");
+            teams.add("*** BAY ***");
         }
 
         // Takım sayısı bir sabite atıldı.
