@@ -22,7 +22,6 @@ public class Main {
             wordsMap.put(word, wordsMap.getOrDefault(word, 0) + 1);
         }
 
-
         int maxCount = 0;
         String mostRepeatedWord = "";
 
