@@ -7,6 +7,7 @@ public class Main {
     public static void main(String[] args) {
         LinkedList<String> teams = new LinkedList<>();            // Takım listesi
         LinkedList<List<String>> matchList = new LinkedList<>();  // Eşleşme listesi
+        LinkedList<List<String>> fixture = new LinkedList<>();    // Fikstur listesi ( Eşleşme listesinin fikstür olarak sıralanmış hali )
         int numberOfTeams;                                        // Takım sayısı ( tek sayı ise +1 )
 
         // Takımlar takım listesine eklendi
@@ -26,49 +27,77 @@ public class Main {
         // Takım sayısı bir sabite atıldı.
         numberOfTeams = teams.size();
 
-        // Eşleşme listesine eşleşmeler eklendi.
-        while (teams.size() > 1) {
-            for (int i = 1; i < teams.size(); i++) {
-                ArrayList<String> match = new ArrayList<>();
-                match.add(teams.getFirst());
-                match.add(teams.get(i));
-                matchList.add(match);
-                matchList.add(match.reversed());
+        // Fikstür listesini oluşturan döngüler.
+        while (fixture.size() < (numberOfTeams * (numberOfTeams - 1))) {
+            // Eşleşme listesi oluşturmak için geçici bir takımlar listesi oluşturuldu.
+            LinkedList<String> tempTeams = new LinkedList<>(teams);
+
+            // Eşleşme listesine eşleşmeler eklendi.
+            while (tempTeams.size() > 1) {
+                for (int i = 1; i < tempTeams.size(); i++) {
+                    ArrayList<String> match = new ArrayList<>();
+                    match.add(tempTeams.getFirst());
+                    match.add(tempTeams.get(i));
+                    matchList.add(match);
+                    matchList.add(match.reversed());
+                }
+                tempTeams.removeFirst();
             }
-            teams.removeFirst();
-        }
 
-        // Random sınıfından random nesnesi üretildi.
-        Random random = new Random();
+            // Random sınıfından random nesnesi üretildi.
+            Random random = new Random();
 
-        int round = 1;
-        while (!matchList.isEmpty()) {
-            LinkedList<List<String>> controlList = new LinkedList<>();
-            int r = random.nextInt(matchList.size());
+            long loopStartTime = System.currentTimeMillis();    // Döngü süresini kontrol etmek için başlangıç anı kaydı alındı.
+            long maxTime = 10;                                  // Max döngü süresi belirlendi
 
-            System.out.println("---------- ROUND" + " " + round++ + " ---------");
-            System.out.println(matchList.get(r).getFirst() + " vs " + matchList.get(r).getLast());
-            controlList.add(matchList.get(r));
-            matchList.remove(r);
+            // Match listteki eşleşmeleri rastgele sırayla fixture listesine ekleyen döngü
+            while (!matchList.isEmpty()) {
+                // Eklenecek random eşleşme içerisindeki takımların round içerisinde başka maçı olduğunu kontrol etmek için kontrol listesi oluşturuldu.
+                LinkedList<List<String>> controlList = new LinkedList<>();
 
-            for (int i = 0; i < ((numberOfTeams / 2) - 1); i++) {
-                boolean isTeamHasMatch = false;
-                r = random.nextInt(matchList.size());
+                // Random sınıfından random nesnesi oluşturuldu.
+                int r = random.nextInt(matchList.size());
 
-                for (List<String> control : controlList) {
-                    if ((control.contains(matchList.get(r).getFirst()) || control.contains(matchList.get(r).getLast()))) {
-                        isTeamHasMatch = true;
+                fixture.add(matchList.get(r));
+                controlList.add(matchList.get(r));
+                matchList.remove(r);
+
+                for (int i = 0; i < ((numberOfTeams / 2) - 1); i++) {
+                    boolean isTeamHasMatch = false;
+                    r = random.nextInt(matchList.size());
+
+                    for (List<String> control : controlList) {
+                        if ((control.contains(matchList.get(r).getFirst()) || control.contains(matchList.get(r).getLast()))) {
+                            isTeamHasMatch = true;
+                        }
                     }
+
+                    if (isTeamHasMatch) {
+                        i--;
+                    } else {
+                        fixture.add(matchList.get(r));
+                        controlList.add(matchList.get(r));
+                        matchList.remove(r);
+                    }
+
+                    if (System.currentTimeMillis() - loopStartTime >= maxTime) {
+                        matchList.clear();
+                        fixture.clear();
+                        break;
+                    }
+
                 }
 
-                if (isTeamHasMatch) {
-                    i--;
-                } else {
-                    System.out.println(matchList.get(r).getFirst() + " vs " + matchList.get(r).getLast());
-                    controlList.add(matchList.get(r));
-                    matchList.remove(r);
-                }
             }
+        }
+        int round = 1;
+        System.out.println("----------------- ROUND " + round++ + " -----------------");
+        for (int i = 0; i < fixture.size(); i++) {
+            System.out.println(fixture.get(i).getFirst() + " vs " + fixture.get(i).getLast());
+            if ((i + 1) % (numberOfTeams / 2) == 0 && i != fixture.size() - 1) {
+                System.out.println("----------------- ROUND " + round++ + " -----------------");
+            }
+
         }
 
     }
