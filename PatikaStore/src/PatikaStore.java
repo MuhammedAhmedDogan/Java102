@@ -29,8 +29,9 @@ public class PatikaStore {
             System.out.println("2- Cep Telefonu işlemleri");
             System.out.println("3- Marka Listele");
             System.out.println("4- Ürün Listele");
+            System.out.println("5- Filtrele");
             System.out.println("0- Çıkış");
-            String menuInput = input.nextLine();
+            String menuInput = input.next();
 
             if (menuInput.equalsIgnoreCase("1")) {
                 for (; ; ) {
@@ -38,7 +39,7 @@ public class PatikaStore {
                     System.out.println("1- Ürün ekle");
                     System.out.println("2- Ürün sil");
                     System.out.println("0- Menüye dön");
-                    String notebookInput = input.nextLine();
+                    String notebookInput = input.next();
                     if (notebookInput.equalsIgnoreCase("1")) {
                         this.addNotebook();
                         break;
@@ -62,7 +63,7 @@ public class PatikaStore {
                     System.out.println("1- Ürün ekle");
                     System.out.println("2- Ürün sil");
                     System.out.println("0- Menüye dön");
-                    String phonesInput = input.nextLine();
+                    String phonesInput = input.next();
                     if (phonesInput.equalsIgnoreCase("1")) {
                         this.addPhone();
                         break;
@@ -84,6 +85,29 @@ public class PatikaStore {
                 this.printBrands();
             } else if (menuInput.equalsIgnoreCase("4")) {
                 this.printProducts();
+            } else if (menuInput.equalsIgnoreCase("5")) {
+                if (phones.isEmpty() && notebooks.isEmpty()) {
+                    System.out.println("-----------------------");
+                    System.out.println("Hiç ürün bulunmamaktır.");
+                    System.out.println("-----------------------");
+                } else {
+                    for (; ; ) {
+                        System.out.println("1- ID numarası ile ürün ara");
+                        System.out.println("2- Markaya ait tüm ürünleri listele");
+                        System.out.println("0- Menüye dön");
+                        String filterInput = input.next();
+                        if (filterInput.equalsIgnoreCase("1")) {
+                            this.getProductById();
+                        } else if (filterInput.equalsIgnoreCase("2")) {
+                            this.getProductsByBrand();
+                        } else if (filterInput.equalsIgnoreCase("0")) {
+                            break;
+                        } else {
+                            System.out.println("Hatalı giriş yaptınız");
+                        }
+                    }
+                }
+
             } else if (menuInput.equalsIgnoreCase("0")) {
                 System.out.println("Çıkış yapıldı");
                 break;
@@ -97,9 +121,7 @@ public class PatikaStore {
         Scanner input = new Scanner(System.in);
         System.out.println("-------------------------------------");
         System.out.print("Ürünün adı : ");
-        String name = input.nextLine();
-        System.out.print("Renk : ");
-        String color = input.nextLine();
+        String name = input.next();
         System.out.print("Marka ID : ");
         int brandId = input.nextInt();
         System.out.print("Fiyatı : ");
@@ -116,6 +138,8 @@ public class PatikaStore {
         int battery = input.nextInt();
         System.out.print("RAM (GB) : ");
         int ram = input.nextInt();
+        System.out.print("Renk : ");
+        String color = input.next();
 
         phones.add(new Product(price, discountRate, stock, name, brands.get(brandId), storage, inc, battery, ram, color));
         System.out.println("Ürün Eklendi");
@@ -143,7 +167,7 @@ public class PatikaStore {
         Scanner input = new Scanner(System.in);
         System.out.println("-------------------------------------");
         System.out.print("Ürünün adı : ");
-        String name = input.nextLine();
+        String name = input.next();
         System.out.print("Marka ID : ");
         int brandId = input.nextInt();
         System.out.print("Fiyatı : ");
@@ -190,20 +214,89 @@ public class PatikaStore {
 
     private void printProducts() {
         System.out.println("Notebook Listesi");
-        System.out.println("---------------------------------------------------------------------------------------");
-        System.out.println("| ID | Ürün Adı        | Fiyat        | Marka     | Depolama   | Ekran     | RAM      |");
+        System.out.println("------------------------------------------------------------------------------------------------------------------");
+        System.out.println("| ID | Ürün Adı        | Fiyat        | Marka     | Depolama   | Ekran     | RAM      | İndirim Oranı | Stok     |");
         for (Product product : notebooks) {
-            System.out.format("| %-2d | %-15s | %-9.1f TL | %-9s | %-10d | %-9.1f | %-8d |\n", product.getId(), product.getName(), product.getPrice(), product.getBrand().getName(), product.getStorage(), product.getInc(), product.getRam());
+            System.out.format("| %-2d | %-15s | %-9.1f TL | %-9s | %-10d | %-9.1f | %-8d | %-13.1f | %-8d |\n", product.getId(), product.getName(), product.getPrice(), product.getBrand().getName(), product.getStorage(), product.getInc(), product.getRam(), product.getDiscountRate(), product.getStock());
         }
-        System.out.println("---------------------------------------------------------------------------------------");
+        System.out.println("------------------------------------------------------------------------------------------------------------------");
         System.out.println();
         System.out.println("Cep Telefonu Listesi");
-        System.out.println("-----------------------------------------------------------------------------------------------------------------");
-        System.out.println("| ID | Ürün Adı        | Fiyat        | Marka     | Depolama   | Ekran     | RAM      | Pil      | Renk         |");
+        System.out.println("--------------------------------------------------------------------------------------------------------------------------------------------");
+        System.out.println("| ID | Ürün Adı        | Fiyat        | Marka     | Depolama   | Ekran     | RAM      | Pil      | Renk         | İndirim Oranı | Stok     |");
         for (Product product : phones) {
-            System.out.format("| %-2d | %-15s | %-9.1f TL | %-9s | %-10d | %-9.1f | %-8d | %-8d | %-12s |\n", product.getId(), product.getName(), product.getPrice(), product.getBrand().getName(), product.getStorage(), product.getInc(), product.getRam(), product.getBattery(), product.getColor());
+            System.out.format("| %-2d | %-15s | %-9.1f TL | %-9s | %-10d | %-9.1f | %-8d | %-8d | %-12s | %-13.1f | %-8d |\n", product.getId(), product.getName(), product.getPrice(), product.getBrand().getName(), product.getStorage(), product.getInc(), product.getRam(), product.getBattery(), product.getColor(), product.getDiscountRate(), product.getStock());
         }
-        System.out.println("-----------------------------------------------------------------------------------------------------------------");
+        System.out.println("--------------------------------------------------------------------------------------------------------------------------------------------");
+    }
+
+    private void getProductById() {
+        Scanner input = new Scanner(System.in);
+        boolean isPhoneHas = false;
+        boolean isNotebookHas = false;
+
+        System.out.print("ID no : ");
+        int id = input.nextInt();
+        for (Product product : notebooks) {
+            if (product.getId() == id) {
+                System.out.println("Notebook");
+                System.out.println("------------------------------------------------------------------------------------------------------------------");
+                System.out.println("| ID | Ürün Adı        | Fiyat        | Marka     | Depolama   | Ekran     | RAM      | İndirim Oranı | Stok     |");
+                System.out.format("| %-2d | %-15s | %-9.1f TL | %-9s | %-10d | %-9.1f | %-8d | %-13.1f | %-8d |\n", product.getId(), product.getName(), product.getPrice(), product.getBrand().getName(), product.getStorage(), product.getInc(), product.getRam(), product.getDiscountRate(), product.getStock());
+                System.out.println("------------------------------------------------------------------------------------------------------------------");
+                isNotebookHas = true;
+                break;
+            }
+        }
+
+        for (Product product : phones) {
+            if (product.getId() == id) {
+                System.out.println("Cep Telefonu Listesi");
+                System.out.println("--------------------------------------------------------------------------------------------------------------------------------------------");
+                System.out.println("| ID | Ürün Adı        | Fiyat        | Marka     | Depolama   | Ekran     | RAM      | Pil      | Renk         | İndirim Oranı | Stok     |");
+                System.out.format("| %-2d | %-15s | %-9.1f TL | %-9s | %-10d | %-9.1f | %-8d | %-8d | %-12s | %-13.1f | %-8d |\n", product.getId(), product.getName(), product.getPrice(), product.getBrand().getName(), product.getStorage(), product.getInc(), product.getRam(), product.getBattery(), product.getColor(), product.getDiscountRate(), product.getStock());
+                System.out.println("--------------------------------------------------------------------------------------------------------------------------------------------");
+                isPhoneHas = true;
+                break;
+            }
+        }
+
+        if (!isPhoneHas && !isNotebookHas) {
+            System.out.println("------------------------------------------------------");
+            System.out.println("Girilen ID numarası ile eşleşen ürün bulunmamaktadır !");
+            System.out.println("------------------------------------------------------");
+        }
+
+    }
+
+    private void getProductsByBrand() {
+        Scanner input = new Scanner(System.in);
+
+        printBrands();
+        System.out.print("Ürünlerini listelemek istediğiniz markanın ID numarasını giriniz : ");
+        String brandId = input.next();
+
+        System.out.println("Notebook Listesi");
+        System.out.println("------------------------------------------------------------------------------------------------------------------");
+        System.out.println("| ID | Ürün Adı        | Fiyat        | Marka     | Depolama   | Ekran     | RAM      | İndirim Oranı | Stok     |");
+        for (Product product : notebooks) {
+            if (product.getBrand().getId().equalsIgnoreCase(brandId)) {
+                System.out.format("| %-2d | %-15s | %-9.1f TL | %-9s | %-10d | %-9.1f | %-8d | %-13.1f | %-8d |\n", product.getId(), product.getName(), product.getPrice(), product.getBrand().getName(), product.getStorage(), product.getInc(), product.getRam(), product.getDiscountRate(), product.getStock());
+            }
+        }
+        System.out.println("------------------------------------------------------------------------------------------------------------------");
+
+        System.out.println();
+        System.out.println("Cep Telefonu Listesi");
+        System.out.println("--------------------------------------------------------------------------------------------------------------------------------------------");
+        System.out.println("| ID | Ürün Adı        | Fiyat        | Marka     | Depolama   | Ekran     | RAM      | Pil      | Renk         | İndirim Oranı | Stok     |");
+        for (Product product : phones) {
+            if (product.getBrand().getId().equalsIgnoreCase(brandId)) {
+                System.out.format("| %-2d | %-15s | %-9.1f TL | %-9s | %-10d | %-9.1f | %-8d | %-8d | %-12s | %-13.1f | %-8d |\n", product.getId(), product.getName(), product.getPrice(), product.getBrand().getName(), product.getStorage(), product.getInc(), product.getRam(), product.getBattery(), product.getColor(), product.getDiscountRate(), product.getStock());
+            }
+        }
+        System.out.println("--------------------------------------------------------------------------------------------------------------------------------------------");
+
     }
 
 }

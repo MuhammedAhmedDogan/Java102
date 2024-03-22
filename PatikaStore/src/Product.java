@@ -1,15 +1,15 @@
 public class Product {
     private static int idCounter = 1;
-    private int id;
-    private double price;
-    private double discountRate;
-    private int stock;
-    private String name;
-    private Brand brand;
-    private int storage;
-    private double inc;
+    private final int id;
+    private final double price;
+    private final double discountRate;
+    private final int stock;
+    private final String name;
+    private final Brand brand;
+    private final int storage;
+    private final double inc;
     private int battery;
-    private int ram;
+    private final int ram;
     private String color;
 
     public Product(double price, double discountRate, int stock, String name, Brand brand, int storage, double inc, int battery, int ram, String color) {
