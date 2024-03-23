@@ -46,11 +46,10 @@ public class PatikaStore {
                     } else if (notebookInput.equalsIgnoreCase("2")) {
                         if (notebooks.isEmpty()) {
                             System.out.println("Notebook listesinde silinecek ürün bulunmuyor");
-                            break;
                         } else {
                             this.deleteNotebook();
-                            break;
                         }
+                        break;
                     } else if (notebookInput.equalsIgnoreCase("0")) {
                         break;
                     } else {
@@ -70,11 +69,10 @@ public class PatikaStore {
                     } else if (phonesInput.equalsIgnoreCase("2")) {
                         if (phones.isEmpty()) {
                             System.out.println("Cep telefonları listesinde silinecek ürün bulunmuyor");
-                            break;
                         } else {
                             this.deletePhone();
-                            break;
                         }
+                        break;
                     } else if (phonesInput.equalsIgnoreCase("0")) {
                         break;
                     } else {
@@ -150,14 +148,16 @@ public class PatikaStore {
         System.out.println("-------------------------------------");
         System.out.print("Silinmek istenen ürüne ait ID no : ");
         int id = input.nextInt();
+        boolean isProductHas = false;
         for (Product product : phones) {
             if (product.getId() == id) {
                 System.out.println("Ürün silindi");
-                break;
-            } else {
-                System.out.println("Girilen ID cep telefonları listesinde bulunamadı.");
+                isProductHas = true;
                 break;
             }
+        }
+        if (!isProductHas) {
+            System.out.println("Girilen ID cep telefonları listesinde bulunamadı.");
         }
         phones.removeIf(product -> product.getId() == id);
 
@@ -192,14 +192,16 @@ public class PatikaStore {
         System.out.println("-------------------------------------");
         System.out.print("Silinmek istenen ürüne ait ID no : ");
         int id = input.nextInt();
+        boolean isProductHas = false;
         for (Product product : notebooks) {
             if (product.getId() == id) {
                 System.out.println("Ürün silindi");
-                break;
-            } else {
-                System.out.println("Girilen ID notebook listesinde bulunamadı.");
+                isProductHas = true;
                 break;
             }
+        }
+        if (!isProductHas) {
+            System.out.println("Girilen ID Notebook listesinde bulunamadı.");
         }
         notebooks.removeIf(product -> product.getId() == id);
     }
