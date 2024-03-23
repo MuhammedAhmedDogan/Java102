@@ -1,9 +1,9 @@
 import java.util.*;
 
 public class PatikaStore {
-    private HashMap<Integer, Brand> brands;
-    private List<Product> phones;
-    private List<Product> notebooks;
+    private final HashMap<Integer, Brand> brands;
+    private final List<Product> phones;
+    private final List<Product> notebooks;
 
     public PatikaStore() {
         this.brands = new HashMap<>();
