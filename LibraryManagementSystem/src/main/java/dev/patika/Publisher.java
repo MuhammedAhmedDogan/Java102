@@ -16,9 +16,8 @@ public class Publisher {
     @Column(name = "publisher_name", nullable = false)
     private String name;
 
-    @Temporal(TemporalType.DATE)
     @Column(name = "publisher_establishment_year ", nullable = false)
-    private LocalDate establishmentYear;
+    private int establishmentYear;
 
     @Column(name = "publisher_address", nullable = false)
     private String address;
@@ -45,11 +44,11 @@ public class Publisher {
         this.name = name;
     }
 
-    public LocalDate getEstablishmentYear() {
+    public int getEstablishmentYear() {
         return establishmentYear;
     }
 
-    public void setEstablishmentYear(LocalDate establishmentYear) {
+    public void setEstablishmentYear(int establishmentYear) {
         this.establishmentYear = establishmentYear;
     }
 

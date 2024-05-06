@@ -16,7 +16,7 @@ public class Book {
     private String name;
 
     @Column(name = "book_publication_year", nullable = false)
-    private String publicationYear;
+    private int publicationYear;
 
     @Column(name = "book_stock")
     private int stock;
@@ -29,9 +29,8 @@ public class Book {
     @JoinColumn(name = "book_publisher_id",referencedColumnName = "publisher_id")
     private Publisher publisher;
 
-    @ManyToOne(fetch = FetchType.LAZY)
-    @JoinColumn(name = "book_borrow_id",referencedColumnName = "borrow_id")
-    private BookBorrowing bookBorrowing;
+    @OneToMany(mappedBy = "book")
+    private List<BookBorrowing> bookBorrowing;
 
     @ManyToMany(fetch = FetchType.LAZY, cascade = CascadeType.PERSIST)
     @JoinTable(
@@ -60,11 +59,11 @@ public class Book {
         this.name = name;
     }
 
-    public String getPublicationYear() {
+    public int getPublicationYear() {
         return publicationYear;
     }
 
-    public void setPublicationYear(String publicationYear) {
+    public void setPublicationYear(int publicationYear) {
         this.publicationYear = publicationYear;
     }
 
@@ -100,11 +99,11 @@ public class Book {
         this.categoryList = categoryList;
     }
 
-    public BookBorrowing getBookBorrowing() {
+    public List<BookBorrowing> getBookBorrowing() {
         return bookBorrowing;
     }
 
-    public void setBookBorrowing(BookBorrowing bookBorrowing) {
+    public void setBookBorrowing(List<BookBorrowing> bookBorrowing) {
         this.bookBorrowing = bookBorrowing;
     }
 
@@ -113,7 +112,7 @@ public class Book {
         return "Book{" +
                 "id=" + id +
                 ", name='" + name + '\'' +
-                ", publicationYear='" + publicationYear + '\'' +
+                ", publicationYear=" + publicationYear +
                 ", stock=" + stock +
                 ", author=" + author +
                 ", publisher=" + publisher +

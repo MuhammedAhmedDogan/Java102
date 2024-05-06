@@ -24,8 +24,9 @@ public class BookBorrowing {
     @Column(name = "return_date")
     private LocalDate returnDate ;
 
-    @OneToMany(mappedBy = "bookBorrowing")
-    private List<Book> bookList;
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "borrow_book_id",referencedColumnName = "book_id")
+    private Book book;
 
     public BookBorrowing() {
     }
@@ -62,12 +63,12 @@ public class BookBorrowing {
         this.returnDate = returnDate;
     }
 
-    public List<Book> getBookList() {
-        return bookList;
+    public Book getBook() {
+        return book;
     }
 
-    public void setBookList(List<Book> bookList) {
-        this.bookList = bookList;
+    public void setBook(Book book) {
+        this.book = book;
     }
 
     @Override
